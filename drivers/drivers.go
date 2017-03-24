@@ -27,7 +27,7 @@ type Driver interface {
 
 var (
 	m       sync.Mutex
-	drivers map[string]func() Driver
+	drivers = make(map[string]func() Driver)
 )
 
 // Set sets the driver factory function for the given name/ID
