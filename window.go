@@ -51,7 +51,7 @@ func WithView(v View) WindowConfig {
 func (ui *UI) NewWindow(cf ...WindowConfig) *Window {
 	c := windowConfig{
 		title:  "UI",
-		width:  300,
+		width:  400,
 		height: 300,
 		view:   DummyView{},
 	}

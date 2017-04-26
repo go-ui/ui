@@ -1,8 +1,7 @@
 package ui
 
 import (
-	"image/draw"
-
+	"github.com/go-ui/ui/drivers"
 	"github.com/go-ui/ui/events"
 )
 
@@ -13,7 +12,7 @@ type View interface {
 	Dirty() bool
 
 	// Render renders the view into an image, if the view has not been resized, this will reuse the image.
-	Render(draw.Image)
+	Render(drivers.Surface)
 
 	// Event received events from the window, so the view can react to them.
 	Event(events.Event)
@@ -26,7 +25,7 @@ type DummyView struct{}
 func (DummyView) Dirty() bool { return false }
 
 // Render does not render anything.
-func (DummyView) Render(_ draw.Image) {}
+func (DummyView) Render(_ drivers.Surface) {}
 
 // Event ignores all events.
 func (DummyView) Event(_ events.Event) {}

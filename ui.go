@@ -12,6 +12,17 @@ func (n NoMatchingDriverError) Error() string {
 	return "No matching GUI driver found for \"" + n.name + "\""
 }
 
+// DriverInitializationError is returned when the
+type DriverInitializationError struct {
+	name string
+	err  error
+}
+
+// Error returns a string with the description of the error
+func (d DriverInitializationError) Error() string {
+	return "Error while initializing \"" + d.name + "\": %s" + d.err.Error()
+}
+
 // UI offers functionality to write UIs in Go.
 type UI struct {
 	d  drivers.Driver
@@ -20,7 +31,10 @@ type UI struct {
 
 // New creates a new UI instance with the driver that implements name
 func New(name string) (*UI, error) {
-	d := drivers.Get(name)
+	d, err := drivers.Get(name)
+	if err != nil {
+		return nil, DriverInitializationError{name: name, err: err}
+	}
 	if d == nil {
 		return nil, NoMatchingDriverError{name: name}
 	}
