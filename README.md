@@ -1,4 +1,4 @@
-[![GoDoc](https://godoc.org/github.com/go-ui/ui?status.svg)](https://godoc.org/github.com/go-ui/ui)
+[![GoDoc](https://godoc.org/github.com/go-ui/ui?status.svg)](https://godoc.org/github.com/go-ui/ui) [![Go Report Card](https://goreportcard.com/badge/github.com/go-ui/ui)](https://goreportcard.com/report/github.com/go-ui/ui)
 
 # go-ui/ui
 Experimental UI framework for Go
