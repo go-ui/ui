@@ -19,9 +19,7 @@ func main() {
 	mainWindow := gui.NewWindow(ui.WithTitle("Test window"), ui.WithSize(800, 600))
 	_ = mainWindow
 
-	gui.NewWindow()
-
-	time.Sleep(1000 * time.Second)
+	time.Sleep(10 * time.Second)
 
 	gui.Release()
 }

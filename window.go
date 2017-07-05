@@ -19,6 +19,8 @@ type windowConfig struct {
 	width  int
 	height int
 	view   View
+	typ    WindowType
+	parent *Window
 }
 
 // WindowConfig represents a configuration function that sets specific
@@ -47,6 +49,18 @@ func WithView(v View) WindowConfig {
 	}
 }
 
+func WithType(t WindowType) WindowConfig {
+	return func(c *windowConfig) {
+		c.typ = t
+	}
+}
+
+func WithParentWindow(w *Window) WindowConfig {
+	return func(c *windowConfig) {
+		c.parent = w
+	}
+}
+
 // NewWindow creates a new window for the UI.
 func (ui *UI) NewWindow(cf ...WindowConfig) *Window {
 	c := windowConfig{
@@ -54,17 +68,29 @@ func (ui *UI) NewWindow(cf ...WindowConfig) *Window {
 		width:  400,
 		height: 300,
 		view:   DummyView{},
+		typ:    NormalWindow,
+		parent: nil,
 	}
+
 	for _, f := range cf {
 		f(&c)
 	}
+
 	w := &Window{v: c.view}
-	w.w = ui.d.CreateWindow(c.title, c.width, c.height, w.event)
+
+	var p drivers.Window
+	if c.parent != nil {
+		p = c.parent.w
+	}
+
+	w.w = ui.d.CreateWindow(c.title, c.width, c.height, drivers.WindowType(c.typ), p, w.event)
+
 	return w
 }
 
 func (w *Window) event(e events.Event) {
 	switch ev := e.(type) {
+
 	case events.KeyEvent:
 		if w.OnKeyDown != nil {
 			w.OnKeyDown(ev)
@@ -75,3 +101,12 @@ func (w *Window) event(e events.Event) {
 
 	}
 }
+
+type WindowType byte
+
+const (
+	NormalWindow WindowType = iota
+	DialogWindow
+	SplashWindow
+	MenuWindow
+)

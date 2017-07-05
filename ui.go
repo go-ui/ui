@@ -38,6 +38,7 @@ func New(name string) (*UI, error) {
 	if d == nil {
 		return nil, NoMatchingDriverError{name: name}
 	}
+
 	return &UI{
 		d: d,
 	}, nil
@@ -47,5 +48,9 @@ func New(name string) (*UI, error) {
 // releases all resouces allocated by it. This instance can not be used
 // afterwards.
 func (ui *UI) Release() error {
+	for _, w := range ui.ws {
+		w.w.Close()
+	}
+
 	return ui.d.Release()
 }
