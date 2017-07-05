@@ -1,4 +1,4 @@
-// The dummy driver, it implements the driver interface but does nothing. Can be used for testing and development.
+// Package dummy contains the dummy driver. It implements the driver interface but does nothing. Can be used for testing and development.
 package dummy
 
 import (
